@@ -58,7 +58,7 @@ int _readline(char *line)
 	int char_read, size = 10;
 
 	buffer = (char *)malloc(sizeof(char) * size);
-	memset(buffer, 0, sizeof(char) * size);
+	_memset(buffer, 0, sizeof(char) * size);
 	while (character != EOF && character != 10)
 	{
 		char_read = read(STDIN_FILENO, &character, 1);
@@ -73,7 +73,7 @@ int _readline(char *line)
 		{
 			size += 5;
 			buffer = realloc(buffer, size);
-			memset(buffer + i, 0, sizeof(char) * 5);
+			_memset(buffer + i, 0, sizeof(char) * 5);
 		}
 
 		if (character != 10)
@@ -93,3 +93,22 @@ int _readline(char *line)
 	return (i);
 }
 
+/**
+ * _memset - used to set a block of memory with a particular value.
+ * @s: a pointer to the block of memory to be set.
+ * @value: is the value to which each byte in the block will be set.
+ * @num: is the number of bytes to be set.
+ * Return: a pointer to the block pf memory set.
+ */
+
+char *_memset(char *s, char value, unsigned int num)
+{
+	unsigned int i = 0;
+
+	while (i < num)
+	{
+		*(s + i) = value;
+		i++;
+	}
+	return (s);
+}

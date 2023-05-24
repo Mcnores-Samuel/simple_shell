@@ -46,6 +46,8 @@ typedef struct command_s
 void prompt(void);
 char *_getenv(char *varname);
 int _readline(char *line);
+char *_memset(char *s, char value, unsigned int num);
+int remove_reading_space(char **buffer, char *line);
 void (*func_ptr(char *str))(char *);
 char *break_input_line(char *line, char *seperator);
 char *_cmd_abs_path(char *cmdname);
