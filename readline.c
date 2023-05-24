@@ -7,10 +7,11 @@
  */
 int _readline(char *line)
 {
-	char character = '\0';
-	size_t i = 0;
-	int char_read;
+	char character = '\0', *buffer;
+	int i = 0, n;
+	int char_read, size = 10;
 
+	buffer = (char *)malloc(sizeof(char) * size);
 	while (character != EOF && character != 10)
 	{
 		char_read = read(STDIN_FILENO, &character, 1);
@@ -20,9 +21,15 @@ int _readline(char *line)
 			return (-1);
 		}
 
+		if (i >= size)
+		{
+			size += 5;
+			buffer = realloc(buffer, size);
+		}
+
 		if (character != 10)
 		{
-			line[i] = character;
+			buffer[i] = character;
 			i++;
 		}
 		else
@@ -30,7 +37,18 @@ int _readline(char *line)
 			break;
 		}
 	}
-	line[i] = '\0';
+	buffer[i] = '\0';
 
+	for (i = 0; i < _strlen(buffer); i++)
+		if (buffer[i] != ' ')
+			break;
+
+	for (n = 0; buffer[i] != '\0'; n++)
+	{
+		line[n] = buffer[i];
+		i++;
+	}
+	free(buffer);
+	line[n] = '\0';
 	return (i);
 }
