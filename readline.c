@@ -5,14 +5,13 @@
  * @buffer: double pointer to the location reading characters from
  * @line: pointer to the location writing the cleaned characters
  * Return: void
- *
  */
 
-void remove_reading_space(char **buffer, char *line)
+int remove_reading_space(char **buffer, char *line)
 {
 	int i, n, count;
 
-	for (i = 0; i < _strlen(buffer); i++)
+	for (i = 0; i < _strlen(*buffer); i++)
 		if ((*buffer)[i] != ' ' && (*buffer)[i] != '\0')
 			break;
 
@@ -42,8 +41,9 @@ void remove_reading_space(char **buffer, char *line)
 		line[n] = (*buffer)[i];
 		i++;
 	}
-	free(buffer);
+	free(*buffer);
 	line[n] = '\0';
+	return (_strlen(line));
 }
 
 /**
@@ -57,7 +57,6 @@ int _readline(char *line)
 	char character = '\0', *buffer;
 	int i = 0;
 	int char_read, size = 10;
-	int count;
 
 	buffer = (char *)malloc(sizeof(char) * size);
 	while (character != EOF && character != 10)
@@ -86,6 +85,7 @@ int _readline(char *line)
 		}
 	}
 	buffer[i] = '\0';
-	remove_reading_space(&buffer, line);
+	i = 0;
+	i = remove_reading_space(&buffer, line);
 	return (i);
 }
