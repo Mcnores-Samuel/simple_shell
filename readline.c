@@ -1,15 +1,63 @@
 #include "simple_shell.h"
 
 /**
+ * remove_reading_space - removes extra space characters
+ * @buffer: double pointer to the location reading characters from
+ * @line: pointer to the location writing the cleaned characters
+ * Return: void
+ *
+ */
+
+void remove_reading_space(char **buffer, char *line)
+{
+	int i, n, count;
+
+	for (i = 0; i < _strlen(buffer); i++)
+		if ((*buffer)[i] != ' ' && (*buffer)[i] != '\0')
+			break;
+
+	if ((*buffer)[i] == '\0')
+	{
+		return (0);
+	}
+	for (n = 0; (*buffer)[i] != '\0'; n++)
+	{
+		if ((*buffer)[i] == ' ')
+		{
+			if ((*buffer)[i + 1] == ' ')
+			{
+				line[n] = (*buffer)[i];
+				for (count = i + 1; (*buffer)[count] != '\0'; count++)
+				{
+					if ((*buffer)[count] != ' ')
+					{
+						n++;
+						break;
+					}
+				}
+				i = count;
+				line[n] = (*buffer)[i];
+			}
+		}
+		line[n] = (*buffer)[i];
+		i++;
+	}
+	free(buffer);
+	line[n] = '\0';
+}
+
+/**
  * _readline - reads input from the command line.
- * @line: pointer to an array to hold the input line.
+ * @line: pointer to an array to hold thinput line.
  * Return: number of bytes read or -1 on failure.
  */
+
 int _readline(char *line)
 {
 	char character = '\0', *buffer;
-	int i = 0, n;
+	int i = 0;
 	int char_read, size = 10;
+	int count;
 
 	buffer = (char *)malloc(sizeof(char) * size);
 	while (character != EOF && character != 10)
@@ -38,17 +86,6 @@ int _readline(char *line)
 		}
 	}
 	buffer[i] = '\0';
-
-	for (i = 0; i < _strlen(buffer); i++)
-		if (buffer[i] != ' ')
-			break;
-
-	for (n = 0; buffer[i] != '\0'; n++)
-	{
-		line[n] = buffer[i];
-		i++;
-	}
-	free(buffer);
-	line[n] = '\0';
+	remove_reading_space(&buffer, line);
 	return (i);
 }
