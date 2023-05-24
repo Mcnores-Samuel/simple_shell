@@ -7,28 +7,23 @@
  */
 int _readline(char *line)
 {
-	char characters[1024];
-	int i = 0, n = 0;
+	char character = '\0';
+	size_t i = 0;
 	int char_read;
-	
-	char_read = read(STDIN_FILENO, &characters, 1024);
-	if (char_read == 0 && char_read < 0)
-		return (-1);
-	characters[char_read] = '\0';
 
-	for (i = 0; i < _strlen(characters); i++)
-		if (characters[i] != ' ')
-			break;
-
-	while (characters[i] != 10)
+	while (character != EOF && character != 10)
 	{
-		if (characters[i] == EOF)
-			return (-1);
-		if (characters[i] != 10)
+		char_read = read(STDIN_FILENO, &character, 1);
+
+		if (char_read == 0 || char_read < 0)
 		{
-			line[n] = characters[i];
+			return (-1);
+		}
+
+		if (character != 10)
+		{
+			line[i] = character;
 			i++;
-			n++;
 		}
 		else
 		{
