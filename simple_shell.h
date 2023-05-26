@@ -11,6 +11,7 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <fcntl.h>
+#include <errno.h>
 
 #define BUFFSIZE 1024
 extern char **environ;
@@ -45,9 +46,8 @@ typedef struct command_s
 
 void prompt(void);
 char *_getenv(char *varname);
-int _readline(char *line);
-char *_memset(char *s, char value, unsigned int num);
 int remove_reading_space(char **buffer, char *line);
+int _readline(char *line);
 void (*func_ptr(char *str))(char *);
 char *break_input_line(char *line, char *seperator);
 char *_cmd_abs_path(char *cmdname);
@@ -59,11 +59,14 @@ char *_strstr(char *mainstr, char *substr);
 
 void execution_call(char *av);
 void execute_path_command(create_cmd *argv, int n, char *av);
+void handle_error(char *av, int n, char *cmdname);
 
 void _ctrlC(int sig __attribute__((unused)));
-void _exit_process(char *status __attribute__((unused)));
+void _exit_process(char *status, create_cmd **head);
 void env(char *en __attribute__((unused)));
 
+void print_number(int n);
+int _putchar_errno(char c);
 int _strlen(char *string);
 int _strcmp(char *str1, char *str2);
 int _strncmp(const char *str1, const char *str2, int n);
@@ -75,5 +78,6 @@ char *_strcpy(char *destination, char *source);
 int _atoi(char *string);
 int _putchar(char c);
 void _puts(char *str);
+char *_memset(char *s, char value, unsigned int num);
 
 #endif

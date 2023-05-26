@@ -13,7 +13,6 @@ void (*func_ptr(char *str))(char *)
 	int i = 0;
 
 	built_in cmd[] = {
-		{"exit", _exit_process},
 		{"env", env},
 		{NULL, NULL}
 	};

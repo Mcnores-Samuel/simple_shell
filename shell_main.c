@@ -43,7 +43,7 @@ void execute_path_command(create_cmd *argv, int n, char *av)
 	}
 	else
 	{
-		printf("%s: %d: %s: not found\n", av, n, argv->command);
+		handle_error(av, n, argv->command);
 	}
 }
 
@@ -74,6 +74,12 @@ void execution_call(char *av)
 		built_in_func = func_ptr(argv->command);
 
 		process_count++;
+
+		if (_strcmp(argv->command, "exit") == 0)
+		{
+			_exit_process(argv->argument[1], &argv);
+		}
+
 		if (built_in_func != NULL)
 		{
 			built_in_func(argv->argument[1]);
@@ -109,5 +115,5 @@ int main(int ac __attribute__((unused)), char **av)
 			execution_call(av[0]);
 		} while (1);
 	}
-	exit(EXIT_SUCCESS);
+	exit(errno);
 }
